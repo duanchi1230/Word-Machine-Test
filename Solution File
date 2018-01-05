@@ -1,0 +1,37 @@
+def solution(S):
+    stack = []
+    S1 = S.split()
+    if S1[0].isdigit() == False:
+        return -1
+    for i in range(len(S1)):
+        if S1[i].isdigit():
+            stack.append(int(S1[i]))
+            if stack == None:
+                return -1
+        if S1[i] == 'DUP':
+            stack.append(stack[len(stack)-1])
+            if stack == None:
+                return -1
+        if S1[i] == 'POP':
+            stack.remove(stack[len(stack)-1])
+            if stack == None:
+                return -1
+        if S1[i] == '+':
+            if len(stack) < 2:
+                return -1
+            stack[len(stack)-2] = stack[len(stack)-2] + stack[len(stack)-1]
+            stack.remove(stack[len(stack) - 1])
+            if stack == None:
+                return -1
+            if stack[len(stack)-1] > 2**20-1:
+                return -1
+        if S1[i] == '-':
+            if len(stack) < 2:
+                return -1
+            stack[len(stack)-2] = stack[len(stack)-1] - stack[len(stack)-2]
+            stack.remove(stack[len(stack) - 1])
+            if stack == None:
+                return -1
+            if stack[len(stack)-1] < 0:
+                return -1
+    return stack[len(stack)-1]
